@@ -1,0 +1,6 @@
+              tframePlus version 2008.5-1
+
+First release. This package splits some new/experimental/less stable
+pieces out of tframe. It also include extensions for zoo and its, so the core
+tframe package does not need them. For older NEWS see the tframe NEWS file.
+
