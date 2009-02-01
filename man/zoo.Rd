@@ -1,7 +1,7 @@
 \name{zoo}
-\alias{tfstart.zoo}
+%%\alias{tfstart.zoo}
 \alias{tfstart.zootframe}
-\alias{tfend.zoo}
+%%\alias{tfend.zoo}
 \alias{tfend.zootframe}
 \alias{tfperiods.zoo}
 \alias{periods.zootframe}
@@ -14,9 +14,9 @@
 \description{Methods to extend tframe of zoo series}
 
 \usage{
-    \method{tfstart}{zoo}(x)
+%%    \method{tfstart}{zoo}(x)
     \method{tfstart}{zootframe}(x)
-    \method{tfend}{zoo}(x)
+%%    \method{tfend}{zoo}(x)
     \method{tfend}{zootframe}(x)
     \method{tfperiods}{zoo}(x)
     \method{tframe}{zoo}(x)

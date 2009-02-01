@@ -13,7 +13,10 @@
   cat("tframe zoo test 1 ... ")
   z <- zoo(rnorm(100), 
      as.POSIXct(Sys.time() + sort(round(runif(100)*1e8)), "GMT")) 
-  names(z) <- "random example"
+  seriesNames(z) <- "random example"
+  ok <- all(seriesNames(z) == c("random example"))
+  all.ok <- all.ok & ok 
+  if (ok) cat("ok\n") else cat("unvariate seriesNames failed!\n") 
   ok <- is.tframed(z) & (inherits(z, "zoo"))
   all.ok <- ok
   if (ok) cat("ok\n") else cat("failed!\n") 
@@ -43,6 +46,9 @@
   z <- tbind(z, zoo(rnorm(120),
           as.POSIXct(Sys.time() + sort(round(runif(120)*1e8)), "GMT")))
   seriesNames(z) <- c("random 1", "random 2")
+  ok <- all(seriesNames(z) == c("random 1", "random 2"))
+  all.ok <- all.ok & ok 
+  if (ok) cat("ok\n") else cat("multivariate seriesNames failed!\n") 
   # periods(z) will be 220 except in the random case of two equal time stamps
   y <- rnorm(periods(z)) 
   tframe(y) <- tframe(z)  

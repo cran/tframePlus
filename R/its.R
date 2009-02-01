@@ -1,3 +1,4 @@
+is.tframed.its <- function(x) {TRUE}
 
 tframe.its <- function (x) {
   tf <- its:::dates(x)
@@ -5,11 +6,14 @@ tframe.its <- function (x) {
   tf
   }
 
-tfSet.itstframe <- function(value, x) {
-   r <- its:::its(x, value) 
-   if (inherits(r, "try-error")) {r <- x ; attr(r, "tframe") <- value}
-   r
-   }
+tfUnSet.its <- function(x)      {x@.Data}
+tfSet.itstframe <- function(value, x) {its:::its(x, value)}
+
+"seriesNames<-.its" <- function (x, value) 
+  {if (is.matrix(x)) dimnames(x) <- list(NULL, value)
+   else attr(x, "seriesNames") <- value
+   x
+  }
 
 tfstart.its <- function(x) its:::dates(x)[1] # start(x) returns character rather than a date
 tfend.its   <- function(x) its:::dates(x)[periods(x)]

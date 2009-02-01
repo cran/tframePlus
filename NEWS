@@ -1,3 +1,21 @@
+
+         Changes in tframePlus version 200x.x-x
+
+Changes (Possibly) Affecting Users
+
+  o Cleaned up consistent with tframe so that data classes are not defined 
+     unless absolutely necessary. 
+
+  o Also, in line with trying to use methods for existing classes, 
+      seriesNames() now uses dimnames[[2]] for matrices, and a class method if
+      that is available. A "seriesNames" attribute is still set if there is
+      no class methods available, as for vectors.
+
+    o removed a try-error check for a condition that would never happen.
+
+    o  added tfI for mulivariate series integration
+
+
               tframePlus version 2008.5-1
 
 First release. This package splits some new/experimental/less stable

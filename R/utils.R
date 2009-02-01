@@ -1,3 +1,8 @@
+tfI <- function (x, I=rep(TRUE, NCOL(x)), t0=rep(0, NCOL(x))) { 
+   nx <- as.matrix(x)
+   for (i in seq(NCOL(nx))) if(I[i]) nx[,i] <- cumsum(c(t0[i], nx[,i]))[-1] 
+   tframed(nx,  tf=tframe(x))
+   }
 
 tfpersp <- function (x, tf=tfspan(x), start=tfstart(tf), end=tfend(tf),
        theta = -30, phi = 15, scale = FALSE, 

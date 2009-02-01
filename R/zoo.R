@@ -1,3 +1,4 @@
+is.tframed.zoo <- function(x) {TRUE}
 
 tframe.zoo <- function (x) {
   tf <- index(x)
@@ -5,15 +6,16 @@ tframe.zoo <- function (x) {
   tf
   }
 
-tfSet.zootframe <- function(value, x) {
-   r <- zoo:::zoo(x, value) 
-   if (inherits(r, "try-error")) {r <- x ; attr(r, "tframe") <- value}
-   r
-   }
+tfUnSet.zoo <- function(x)      {zoo:::coredata(x)}
+tfSet.zootframe <- function(value, x) {zoo:::zoo(x, value)}
 
-tfstart.zoo    <- function(x) start(x)
-tfend.zoo      <- function(x) end(x)
-tfperiods.zoo <- function(x) if(is.matrix(x)) nrow(x) else length(x)
+"seriesNames<-.zoo" <- function (x, value) 
+  {if (is.matrix(x)) dimnames(x) <- list(NULL, value)
+   else attr(x, "seriesNames") <- value
+   x
+  }
+
+tfperiods.zoo <- function(x)  NROW(x)
 
 tfstart.zootframe <- function(x) x[1]
 tfend.zootframe   <- function(x) x[length(x)]
@@ -29,20 +31,24 @@ tfwindow.zoo <- function(x, tf=NULL, start=tfstart(tf), end=tfend(tf), warn=TRUE
      }
    y <- window(x, start=start, end=end)
    seriesNames(y) <- seriesNames(x)
+   attr(y, "TSrefperiod") <- attr(x, "TSrefperiod")
    y
   }
 
 tbind.zoo <- function(x, ..., pad.start=TRUE, pad.end=TRUE, warn=TRUE)
  {nm <- seriesNames(x)
+  ref <- attr(x, "TSrefperiod")
   for (z in list(...)) {
     if (!is.null(z)) {
-      nm <- c(nm, seriesNames(z))
+      nm  <- c(nm,  seriesNames(z))
+      ref <- c(ref, attr(z, "TSrefperiod"))
       x <- cbind(x, z)
       }
     }
   if (!pad.start | !pad.end)
      x <- trimNA(x, startNAs= !pad.start, endNAs= !pad.end)
   seriesNames(x) <- nm
+  attr(x, "TSrefperiod") <- ref
   x
  }  
 
