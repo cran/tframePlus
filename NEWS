@@ -1,24 +1,51 @@
+Changes in tframePlus version 2009.10-1
 
-         Changes in tframePlus version 200x.x-x
+   o	Standardized NEWS format for new function news().
 
-Changes (Possibly) Affecting Users
+   o	Fixed a few documentation problems found by R-2.10.0 (beta) quality checks.
 
-  o Cleaned up consistent with tframe so that data classes are not defined 
-     unless absolutely necessary. 
+   o	fixed rollAggregate problem with zoo daily/weekly data.
 
-  o Also, in line with trying to use methods for existing classes, 
-      seriesNames() now uses dimnames[[2]] for matrices, and a class method if
-      that is available. A "seriesNames" attribute is still set if there is
-      no class methods available, as for vectors.
+   o	fixed tfSet.zootframe drop class zootframe when gernerating zoo object. 
 
-    o removed a try-error check for a condition that would never happen.
-
-    o  added tfI for mulivariate series integration
+   o	fixed tfExpand.zoo to have correct number of NA columns and avoid warning. 
 
 
-              tframePlus version 2008.5-1
+Changes in tframePlus version 2009.06-1
 
-First release. This package splits some new/experimental/less stable
-pieces out of tframe. It also include extensions for zoo and its, so the core
-tframe package does not need them. For older NEWS see the tframe NEWS file.
+   o	added function TSwriteXLS to write time series to .xls files. 
+
+   o	added function as.weekly (which is still somewhat limited).
+
+   o	added function rollAggregate.
+
+   o	added methods tfL.zoo  and tfExpand.zoo.
+
+
+Changes in tframePlus version 2009.04-1
+
+   o	Added function as.annually. 
+
+
+Changes in tframePlus version 2009.02-1
+
+   o	Cleaned up consistent with tframe so that data classes are not defined 
+	unless absolutely necessary. 
+
+   o	Also, in line with trying to use methods for existing classes, 
+	seriesNames() now uses dimnames[[2]] for matrices, and a class method if
+	that is available. A "seriesNames" attribute is still set if there is
+	no class methods available, as for vectors.
+
+   o	removed a try-error check for a condition that would never happen.
+
+   o	added tfI for mulivariate series integration.
+
+
+Changes in tframePlus version 2008.5-1
+
+   o	First release. This package splits some new/experimental/less stable
+	pieces out of tframe. It also include extensions for zoo and its, so 
+	the core tframe package does not need them. For older NEWS see the 
+	tframe NEWS file.
 

@@ -25,7 +25,7 @@
 \seealso{
     \code{\link[tframe]{tfL}}
     \code{\link[tframe]{tfwindow}}
-    \code{\link[base]{aggregate}}
+    \code{\link[stats]{aggregate}}
     \code{\link[base]{cumsum}}
     \code{\link{as.quarterly}}
 }

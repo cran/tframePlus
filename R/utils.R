@@ -25,6 +25,70 @@ tfpersp <- function (x, tf=tfspan(x), start=tfstart(tf), end=tfend(tf),
        ltheta=ltheta, lphi=lphi) #, col = fcol, shade = 0.4,...)
     }
 
+TSwriteXLS <- function(x, ..., FileName="R.xls", SheetNames=NULL,
+               verbose = FALSE){
+  # consider tempfile() in overwrite case 
+  xx <- list(x, ...)
+  env <- sys.frame(sys.nframe())
+   genSheetNames <- if (is.null(SheetNames)) TRUE else FALSE
+  frNames <- paste("seriesData", seq(length(xx)), sep="")
+  for (i in seq(length(xx))) {
+    x <- xx[[i]]
+    if (genSheetNames) SheetNames <- c(SheetNames, seriesNames(x)[1])
+    tm <- time(x)
+    y <- floor(time(tm))
+    if (frequency(x) == 4) {
+       q <- c("Q1", "Q2", "Q3", "Q4")
+       p <- round(1 + frequency(tm) * (time(tm) %% 1))
+       pp <- q[p]
+       dt <- paste(pp, y)
+       seriesData <- data.frame(date=dt, year=y, period=p, quarter=pp, x)
+       names(seriesData) <- c("date", "year", "period", "quarter", seriesNames(x))
+       }
+    else if (frequency(x) == 12) {
+       m <- c("Jan", "Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
+       p <- round(1 + frequency(tm) * (time(tm) %% 1))
+       pp <- m[p]
+       dt <- paste(pp, y)
+       seriesData <- data.frame(date=dt, year=y, period=p, month=pp, x)
+       names(seriesData) <- c("date", "year", "period", "month", seriesNames(x))
+       }
+    else  { # annual, daily and weekly are freq 1
+       seriesData <- data.frame(date=tm, x ) 
+       names(seriesData) <- c("date", seriesNames(x))
+       }
+    assign(frNames[i], seriesData, envir=env)
+    }
+  if (require("WriteXLS") && testPerl(verbose=FALSE)) {
+     rr <- WriteXLS(frNames, ExcelFileName=FileName, SheetNames=SheetNames,
+               verbose=verbose, envir=env) 
+     }
+  else { # work around with save and transfer ...
+     warning("WriteXLS not usable. Writing txt file.")
+     rr <- save(list=seriesData, file = paste(FileName, ".txt", sep=""))
+     }
+  rr
+  }
+
+as.weekly <- function(x, FUN=sum, na.rm=FALSE, foldFrom=end(x), periodicity = 7){
+   # To weekly by periodicity groupings backward from foldFrom
+   # and  drop any partial week from the beginning
+   # 7 for 7 day weeks.  tested only with daily to weekly, 
+   #  periodicity <- 1/frequency(x) unfortunately does not work for daily
+   #drop <- length(x) %% periodicity
+   addst <- periodicity - (periods(tfwindow(x, end= foldFrom)) %% periodicity) 
+   adden <- (periods(tfwindow(x, start= foldFrom))-1) %% periodicity 
+   x <- tfExpand.zoo(x, add.start=addst, add.end  =adden)
+   r <- as.matrix(x)
+   #if (drop > 0) r <- r[ -(1:drop),, drop=FALSE]
+   C <- NCOL(r)
+   R <- NROW(r)/periodicity
+   rr <- matrix(NA, R, C)
+   for (i in 1:C) rr[,i ] <- apply(matrix(r[,i],periodicity, R),2, FUN=FUN)
+   r <- zoo(rr, foldFrom - (NROW(rr)-1):0 * periodicity)
+   if(na.rm) trimNA(r) else r
+   }
+   
 as.quarterly <- function (x, FUN=sum, na.rm=FALSE, ...){
     # convert to quarterly (from monthly only, so far
     #  use aggregate, but shift to match quarters
@@ -32,9 +96,39 @@ as.quarterly <- function (x, FUN=sum, na.rm=FALSE, ...){
     if (12 != frequency(x)) stop("only monthly conversion supported for now.")
     tf <- tframe(x)
     nm <- seriesNames(x)
-    x <- tfExpand(x, add.start=(start(x)[2] %% 3)-1,
-                     add.end  =(3 - end(x)[2]) %% 3)
+    x <- tfExpand(x, add.start=(tfstart(tf)[2] %% 3)-1,
+                     add.end  =(3 - tfend(tf)[2]) %% 3)
     r <- aggregate(x, nfrequency=4, FUN=FUN, 
         ndeltat=1, ts.eps=getOption("ts.eps"), ...) 
     if(na.rm) trimNA(r) else r
     }
+
+as.annually <- function (x, FUN=sum, na.rm=FALSE, ...){
+    # convert to annual (from quarterly or monthly only, so far)
+    #  use aggregate, but shift to match years
+    # Monthly to annual gives the aggregate through quarterly which
+    #  is not exactly correct.
+    if (1 == frequency(x)) return(if(na.rm) trimNA(x) else x) 
+    if (12 == frequency(x)) x <- as.quarterly(x, FUN=FUN, na.rm=na.rm, ...)
+    if (4 != frequency(x))
+       stop("currently only quarterly and monthly series are supported." )
+    tf <- tframe(x)
+    nm <- seriesNames(x)
+    x <- tfExpand(x, add.start=(tfstart(tf)[2] %% 4)-1,
+                     add.end  =(4 - tfend(tf)[2]) %% 4)
+    r <- aggregate(x, nfrequency=1, FUN=FUN, 
+        ndeltat=1, ts.eps=getOption("ts.eps"), ...) 
+    if(na.rm) trimNA(r) else r
+    }
+
+
+rollAggregate <- function(x, FUN=sum, na.rm=FALSE, aggPeriods=4, ...){
+   r <- as.matrix(x)
+   N <- periods(x)
+   rr <- array(NA, c(N, NCOL(r), aggPeriods))
+   rr[,,1] <- r
+   for (i in 1:(aggPeriods-1)) rr[(1+i):N,,(1+i)] <- r[1:(N-i),]
+   rr <- apply(rr,1:2, FUN=FUN, ...)
+   rr <- tframed(rr, tf=tframe(x))
+   if(na.rm) trimNA(rr) else rr
+   }

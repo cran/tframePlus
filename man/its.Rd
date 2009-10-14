@@ -1,4 +1,4 @@
-\name{its}
+\name{tframe.its}
 \alias{tfstart.its}
 \alias{tfstart.itstframe}
 \alias{tfend.its}
@@ -40,9 +40,11 @@
 
 \seealso{
     \code{\link[tframe]{tframe}}, 
-    \code{\link[tframe]{tfwindow}}
+    \code{\link[tframe]{tfwindow}},
     \code{\link[tframe]{tfstart}}, 
-    \code{\link[tframe]{tfend}}
-    \code{\link[tframe]{time}}
-}
+    \code{\link[tframe]{tfend}},
+    \code{\link[tframe]{tftime}},
+    \code{\link[stats]{time}},
+    \code{\link[tframe]{time.tframed}}
+    }
 \keyword{internal}

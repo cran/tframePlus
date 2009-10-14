@@ -7,7 +7,9 @@ tframe.zoo <- function (x) {
   }
 
 tfUnSet.zoo <- function(x)      {zoo:::coredata(x)}
-tfSet.zootframe <- function(value, x) {zoo:::zoo(x, value)}
+tfSet.zootframe <- function(value, x) { 
+  class(value) <- class(value)[class(value) != "zootframe"]
+  zoo:::zoo(x, value) }
 
 "seriesNames<-.zoo" <- function (x, value) 
   {if (is.matrix(x)) dimnames(x) <- list(NULL, value)
@@ -22,6 +24,8 @@ tfend.zootframe   <- function(x) x[length(x)]
 tfperiods.zootframe   <- function(x) length(x)
 periods.zootframe     <- function(x) length(x)
 
+tfL.zoo <- function (x, p = 1) lag(x, k = -p)
+
 tfwindow.zoo <- function(x, tf=NULL, start=tfstart(tf), end=tfend(tf), warn=TRUE)
   {# With the default warn=T warnings will be issued if no truncation takes
    #  place because start or end is outside the range of data.
@@ -34,6 +38,20 @@ tfwindow.zoo <- function(x, tf=NULL, start=tfstart(tf), end=tfend(tf), warn=TRUE
    attr(y, "TSrefperiod") <- attr(x, "TSrefperiod")
    y
   }
+
+tfExpand.zoo <- function(x, add.start = 0, add.end = 0){
+   idx <- time(x)
+   r <- as.matrix(coredata(x))
+   if (add.start > 0 ) {
+     idx <- c(start(x) - seq(add.start), idx)
+     r <- rbind(matrix(NA, add.start, ncol(r)), r)
+     }
+   if (add.end > 0 ) {
+     idx <- c(idx, end(x) + seq(add.end))
+     r <- rbind(r, matrix(NA,add.end, ncol(r)))
+     }
+   zoo(r, order.by = idx) 
+   }
 
 tbind.zoo <- function(x, ..., pad.start=TRUE, pad.end=TRUE, warn=TRUE)
  {nm <- seriesNames(x)

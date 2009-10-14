@@ -37,7 +37,7 @@
 
 \seealso{
     \code{\link[tframe]{tfwindow}}
-    \code{\link[base]{persp}}
+    \code{\link[graphics]{persp}}
 }
 \keyword{utilities}
 \keyword{ts}
