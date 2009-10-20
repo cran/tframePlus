@@ -19,7 +19,7 @@
 }
 \value{logical}
 \details{
-  This functions uses WriteXLS to write time series data to an .xls spreadsheet
+  This functions uses \code{WriteXLS} to write time series data to an .xls spreadsheet
   file. If the object \code{x} has mulitple series then they will be put on
   the same sheet. Additional objects in \dots will be put on additional pages.
   
@@ -27,7 +27,10 @@
   be generated from the first series name in each object. If \code{SheetNames}
   is supplied then it should have an element for \code{x} and for each object 
   in \dots.
-}
+  
+  If \code{WriteXLS} does not find a version of perl with appropriate modules
+  then a work around is attempted using \code{save}.
+  }
 \seealso{
     \code{\link[WriteXLS]{WriteXLS}}
 }

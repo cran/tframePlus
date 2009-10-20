@@ -65,7 +65,9 @@ TSwriteXLS <- function(x, ..., FileName="R.xls", SheetNames=NULL,
      }
   else { # work around with save and transfer ...
      warning("WriteXLS not usable. Writing txt file.")
-     rr <- save(list=seriesData, file = paste(FileName, ".txt", sep=""))
+     r <- try(save(seriesData, file = paste(FileName, ".txt", sep="")),
+               silent = TRUE)
+     rr <- ! inherits(r, "try-error")
      }
   rr
   }
