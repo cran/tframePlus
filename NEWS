@@ -1,3 +1,11 @@
+Changes in tframePlus version 2010.4-1
+
+   o	Added argument dateHeader to TSwriteXLS.
+
+   o	Fixed bug in TSwriteXLS with rounding problem causing incorrectly 
+	mapping of some ts dates into correct month.
+
+
 Changes in tframePlus version 2009.10-2
 
    o	Fixed workaround in TSwriteXLS using save() when WriteXLS does not

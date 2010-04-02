@@ -26,36 +26,35 @@ tfpersp <- function (x, tf=tfspan(x), start=tfstart(tf), end=tfend(tf),
     }
 
 TSwriteXLS <- function(x, ..., FileName="R.xls", SheetNames=NULL,
-               verbose = FALSE){
+               dateHeader="date", verbose = FALSE){
   # consider tempfile() in overwrite case 
   xx <- list(x, ...)
   env <- sys.frame(sys.nframe())
    genSheetNames <- if (is.null(SheetNames)) TRUE else FALSE
   frNames <- paste("seriesData", seq(length(xx)), sep="")
+  if (1 == length(dateHeader)) dateHeader <- rep(dateHeader, length(xx))
   for (i in seq(length(xx))) {
     x <- xx[[i]]
     if (genSheetNames) SheetNames <- c(SheetNames, seriesNames(x)[1])
     tm <- time(x)
     y <- floor(time(tm))
     if (frequency(x) == 4) {
-       q <- c("Q1", "Q2", "Q3", "Q4")
-       p <- round(1 + frequency(tm) * (time(tm) %% 1))
-       pp <- q[p]
+       p <- cycle(tm)
+       pp <- c("Q1", "Q2", "Q3", "Q4")[p]
        dt <- paste(pp, y)
        seriesData <- data.frame(date=dt, year=y, period=p, quarter=pp, x)
-       names(seriesData) <- c("date", "year", "period", "quarter", seriesNames(x))
+       names(seriesData) <- c(dateHeader[i], "year", "period", "quarter", seriesNames(x))
        }
     else if (frequency(x) == 12) {
-       m <- c("Jan", "Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
-       p <- round(1 + frequency(tm) * (time(tm) %% 1))
-       pp <- m[p]
+       p <- cycle(tm)
+       pp <- c("Jan", "Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")[p]
        dt <- paste(pp, y)
        seriesData <- data.frame(date=dt, year=y, period=p, month=pp, x)
-       names(seriesData) <- c("date", "year", "period", "month", seriesNames(x))
+       names(seriesData) <- c(dateHeader[i], "year", "period", "month", seriesNames(x))
        }
     else  { # annual, daily and weekly are freq 1
        seriesData <- data.frame(date=tm, x ) 
-       names(seriesData) <- c("date", seriesNames(x))
+       names(seriesData) <- c(dateHeader[i], seriesNames(x))
        }
     assign(frNames[i], seriesData, envir=env)
     }

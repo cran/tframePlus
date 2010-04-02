@@ -6,7 +6,7 @@
 
 \usage{
     TSwriteXLS(x, ..., FileName="R.xls", SheetNames=NULL,
-               verbose = FALSE)
+               dateHeader="date", verbose = FALSE)
 }
 
 \arguments{
@@ -15,6 +15,7 @@
     \item{FileName}{a string to use for the file name.}
     \item{SheetNames}{Logical indicating if NA should be removed from the beginning
     and end of a series}
+    \item{dateHeader}{string or vector of strings to use as header on date column.}
     \item{verbose}{logical passed to WriteXLS.}
 }
 \value{logical}
@@ -22,6 +23,17 @@
   This functions uses \code{WriteXLS} to write time series data to an .xls spreadsheet
   file. If the object \code{x} has mulitple series then they will be put on
   the same sheet. Additional objects in \dots will be put on additional pages.
+
+  The first line of each sheet will have column headers using \code{seriesNames}
+  from the series in the column. The first column will have dates and the 
+  heading  for that column will be determined by \code{dateHeader}. This can be a 
+  vector of length equal the number of sheets, of a single character string, in 
+  which case it is replicated for each sheet. The \code{dateHeader} is a 
+  might be useful for indication information like the date of the last 
+  observation in a known place on the sheet (A1) for indicating on a graph.
+  For convenience, the year, period, and a character 
+  representation of the period are indicated in columns 2 to 4. This is followed 
+  by columns of the data.
   
   If \code{SheetNames} is \code{NULL} (the default) then the sheet names will 
   be generated from the first series name in each object. If \code{SheetNames}
