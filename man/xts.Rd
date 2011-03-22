@@ -1,31 +1,31 @@
-\name{tframe.zoo}
-%%\alias{tfstart.zoo}
-\alias{tfstart.zootframe}
-%%\alias{tfend.zoo}
-\alias{tfend.zootframe}
-\alias{Tobs.zoo}
-\alias{Tobs.zootframe}
+\name{tframe.xts}
+%%\alias{tfstart.xts}
+\alias{tfstart.xtstframe}
+%%\alias{tfend.xts}
+\alias{tfend.xtstframe}
+\alias{Tobs.xts}
+\alias{Tobs.xtstframe}
 
-\alias{tframe.zoo}
-\alias{tfSet.zootframe}
-\alias{tfwindow.zoo}
-\alias{tfL.zoo}
-\alias{tfExpand.zoo}
+\alias{tframe.xts}
+\alias{tfSet.xtstframe}
+\alias{tfwindow.xts}
+\alias{tfL.xts}
+\alias{tfExpand.xts}
 
-\title{zoo Methods for tframe}
-\description{Methods to extend tframe of zoo series}
+\title{xts Methods for tframe}
+\description{Methods to extend tframe of xts series}
 
 \usage{
-%%    \method{tfstart}{zoo}(x)
-    \method{tfstart}{zootframe}(x)
-%%    \method{tfend}{zoo}(x)
-    \method{tfend}{zootframe}(x)
-    \method{Tobs}{zoo}(x)
-    \method{tframe}{zoo}(x)
-    \method{tfSet}{zootframe}(value, x) 
-    \method{tfwindow}{zoo}(x, tf=NULL, start=tfstart(tf), end=tfend(tf), warn=TRUE)
-    \method{tfL}{zoo}(x, p = 1)
-    \method{tfExpand}{zoo}(x, add.start = 0, add.end = 0)
+%%    \method{tfstart}{xts}(x)
+    \method{tfstart}{xtstframe}(x)
+%%    \method{tfend}{xts}(x)
+    \method{tfend}{xtstframe}(x)
+    \method{Tobs}{xts}(x)
+    \method{tframe}{xts}(x)
+    \method{tfSet}{xtstframe}(value, x) 
+    \method{tfwindow}{xts}(x, tf=NULL, start=tfstart(tf), end=tfend(tf), warn=TRUE)
+    \method{tfL}{xts}(x, p = 1)
+    \method{tfExpand}{xts}(x, add.start = 0, add.end = 0)
 }
 
 \arguments{
