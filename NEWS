@@ -1,3 +1,12 @@
+Changes in tframePlus version 2011.8-1
+
+   o	fixed mechanism for changing time series representation when several
+   	packages are loaded, with competing mechanisms for as.Date() and time().
+
+Changes in tframePlus version 2011.6-1
+
+   o	Added TSwriteCSV for writing csv files of time series data.
+
 Changes in tframePlus version 2011.3-1
 
    o	Converted both periods() and tfperiods() to Tobs(). (The distinction is
