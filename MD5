@@ -1,5 +1,5 @@
-11cbca77890d8a863eae9f7c1f7cc675 *DESCRIPTION
-ed81859b5443525f22adeca42630cf70 *LICENSE
+17af02b5f77daaa484f88c6f50221455 *DESCRIPTION
+8c2ef3f2ed55a520caa10c020749612d *LICENSE
 02ad8742a3085ed9668cdec818e8567e *NAMESPACE
 3dcff159b1c5cacbcc9df65ad559de3a *NEWS
 ed4718784ab75b548c2518188f20174a *R/its.R
@@ -9,7 +9,7 @@ ed4718784ab75b548c2518188f20174a *R/its.R
 26ce352450b9e96a84e10287a31496a4 *R/xts.R
 5980f4eabffbdf42b6308fb49931e2b7 *R/zoo.R
 64f2194860fc5e60897919bbfea190be *inst/doc/Guide.Stex
-f8d1f12755475f7e2cafea4a29ca00ab *inst/doc/Guide.pdf
+aac728142c457cab323e28af10cb3ef9 *inst/doc/Guide.pdf
 26b1d4c24640071969a150762a6ebb97 *man/TSwriteXLS.Rd
 482882997e311106447de18cf3778cc0 *man/as.quarterly.Rd
 8d2e4d95ef082a5c55eadc0b633c439b *man/changeTSrepresentation.Rd
@@ -28,3 +28,4 @@ a6d02751fac176737db59a4ef8fd53d6 *tests/perl.R
 8f4bf4a90d8315620f3c42af965117b7 *tests/tis.R
 caff3537e38646199e87fbd3da968e86 *tests/xts.R
 72588aa25fdab3a33fdb545cc6e79cd5 *tests/zoo.R
+64f2194860fc5e60897919bbfea190be *vignettes/Guide.Stex
