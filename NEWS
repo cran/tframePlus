@@ -1,10 +1,22 @@
+Changes in tframePlus version 2012.4-2
+
+   o	Added tfplot to Suggests in DESCRIPTION.
+
+Changes in tframePlus version 2012.4-1
+
+   o	Setting of zoo and xts tframe fixed to not drop series names.
+
+Changes in tframePlus version 2011.11-2
+
+   o	Updated some copyright dates.
+
 Changes in tframePlus version 2011.11-1
 
-   o	updated maintainer email address.
+   o	Updated maintainer email address.
 
 Changes in tframePlus version 2011.8-1
 
-   o	fixed mechanism for changing time series representation when several
+   o	Fixed mechanism for changing time series representation when several
    	packages are loaded, with competing mechanisms for as.Date() and time().
 
 Changes in tframePlus version 2011.6-1
