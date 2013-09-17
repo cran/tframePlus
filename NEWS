@@ -1,3 +1,9 @@
+Changes in tframePlus version 2013.9-1
+
+   o	Cleaned up Depends/Imports/Suggests and ::: usage.
+
+   o	Minor changes related to Depends and Imports changes in other packages.
+
 Changes in tframePlus version 2012.8-1
 
    o	Added utilities tfSet.POSIXct and tfSet.Date (not exported) to 
