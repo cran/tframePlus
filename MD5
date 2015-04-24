@@ -1,13 +1,13 @@
-1a86c637449c19621e8aa44b8a3eef3b *DESCRIPTION
-d0b6b75a895d3b4e00c8aa0f25105071 *NAMESPACE
-84df4e514e3157691972c919ed6e139f *NEWS
+1fc6d281f51ba43622dfc35ab636b05c *DESCRIPTION
+d4d8f324adbf11aa46813106c8e03bd4 *NAMESPACE
+192ded22a97b6c582f0deaf63f4ceb92 *NEWS
 e56cc059f09cc86f19c11e2a6cece33e *R/its.R
-d16f89be94c025c5e2a7b304e1651a3a *R/timeSeries.R
+539e71537f0ec76be99d9c7068be2d3f *R/timeSeries.R
 0ac5872d42c4fcbe8a4b477454b81ca9 *R/tis.R
-463619e0d09b85995574af73bb4058b0 *R/utils.R
-3ead1ac2ebf960aa30de8fbc42cfc574 *R/xts.R
-2de001504adce8b2c437fd5d5a2893fe *R/zoo.R
-2015ddc0fc59327d8cde66689dc418e2 *build/vignette.rds
+7e0abe6fed9a12cc27cd9f85d0523a1a *R/utils.R
+2dad280881b7770216c394a5d55be3ed *R/xts.R
+72217efa8b967d3222a409105394358d *R/zoo.R
+951bbee7b77ceb17a3033debc9dde2f1 *build/vignette.rds
 64f2194860fc5e60897919bbfea190be *inst/doc/Guide.Stex
 aac728142c457cab323e28af10cb3ef9 *inst/doc/Guide.pdf
 26b1d4c24640071969a150762a6ebb97 *man/TSwriteXLS.Rd
@@ -28,4 +28,5 @@ a6d02751fac176737db59a4ef8fd53d6 *tests/perl.R
 b0f43366c8e45b74556298567c254239 *tests/tis.R
 ffd95a080ebe657ca0e611f315f98daa *tests/xts.R
 2465bafd00559aa0cd2c293b23955cd4 *tests/zoo.R
+502a829e2fe0542c2b877322c1fb3a4e *tests/zoo2.R
 64f2194860fc5e60897919bbfea190be *vignettes/Guide.Stex

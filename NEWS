@@ -1,3 +1,32 @@
+Known Bugs
+
+   o	changeTSrepresentation() has requireNamespace("zoo") but there seem to be some
+   	conditions when require("zoo") is needed. (Package zoo needs to overwrite the
+	as.Date() generic since there is no default for the origin in the
+	as.Date.numeric() method.
+	
+   o	A NOTE regarding no visible global function definition for tfstart and tfend
+   	is produced in CRAN checks because of a bug in S4.
+
+Changes in tframePlus version 2015.1-2
+
+   o	added Known Bugs regarding require("zoo") and bug in S4.
+
+Changes in tframePlus version 2015.1-1
+
+   o	Adjusted changeTSrepresentation() to work with default (do nothing)
+   	and NULL meaning default so it can be called without alway 
+	prechecking for this.
+
+   o	Added ability to pass a function to changeTSrepresentation().
+
+   o	Modified changeTSrepresentation() to use get() rather than do.call()
+   	in exceptional cases.
+
+   o	Changed require() to requireNamespace() for WriteXLS.
+
+   o	Minor adjustments to add package namespace references in calls.
+
 Changes in tframePlus version 2013.9-1
 
    o	Cleaned up Depends/Imports/Suggests and ::: usage.

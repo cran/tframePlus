@@ -11,8 +11,8 @@ tfpersp <- function (x, tf=tfspan(x), start=tfstart(tf), end=tfend(tf),
        ticktype="detailed",ltheta = -120, lphi = 15,
        ...) {
     # 
-    if (!is.null(start)) x <- tfwindow(x, start = start, warn = FALSE)
-    if (!is.null(end))   x <- tfwindow(x, end = end, warn = FALSE)    
+    if (!is.null(start)) x <- tframe::tfwindow(x, start = start, warn = FALSE)
+    if (!is.null(end))   x <- tframe::tfwindow(x, end = end, warn = FALSE)    
     tline <- time(x)
     rx <- max(tline, na.rm=TRUE ) - min(tline, na.rm=TRUE)
     rz <- max(x, na.rm=TRUE) - min(x, na.rm=TRUE)
@@ -26,24 +26,47 @@ tfpersp <- function (x, tf=tfspan(x), start=tfstart(tf), end=tfend(tf),
     }
 
 changeTSrepresentation <- function(x, newRepresentation){
-   if (mode(newRepresentation) == "character")  
-       if (newRepresentation == "tis") {
-          require("tis")
-          r <- do.call("as.tis", list(x)) 
+   if (is.null(newRepresentation)) newRepresentation <- "default"
+   if (is.function(newRepresentation))
+       return(newRepresentation(x))
+   else if (is.character(newRepresentation))  
+       if (newRepresentation  == "default"){
+          return(x)
+	  # above assumes that x is already in default! 
+	  # and also that the user or calling routine required zoo if needed. 
+	  # Next fails by converting daily from zoo to ts.
+          #if(tffrequency(x) %in% c( 1, 4, 12, 2))  return(as.ts(x))
+	  #else {
+          #   requireNamespace("zoo")
+	  #   return(zoo::as.zoo(x))
+	  #   }
+	  }
+       else if (newRepresentation  == "ts") 
+          return(as.ts(x))
+       else if (newRepresentation  == "zoo"){
+          requireNamespace("zoo")
+          #require("zoo") # because of bug in zoo <= 1.7-11
+	  return(zoo::as.zoo(x))
+	  }
+       else if (newRepresentation == "timeSeries") {
+          if (! "timeSeries" %in% loadedNamespaces())
+	      stop("timeSeries package must be attached.")
+	  # zoo and base have as.Date(). 
+	  # zoo has index() while timeSeries and stats have time().
+	  # note that timeSeries does not seem to support start()
+	  return(timeSeries::as.timeSeries(x))
+          }
+       else if (newRepresentation == "tis") {
+          if (! "tis" %in% loadedNamespaces())
+	      stop("tis package must be attached.")
+          return(tis::as.tis(x))
           }
        else {
-  	  require("zoo")
-  	  #dates <- as.Date(time(x)) 
-	  #zoo and base have as.Date(). zoo, timeSeries and stats have time() 
-          dates <- zoo::as.Date(stats::time(x))
-	  r <- do.call(newRepresentation, list(x, dates))
+  	  return(get(newRepresentation)(x))
           }
-    else {
-       require("zoo")
-       dates <- zoo::as.Date(stats::time(x))
-       r <- newRepresentation(x, dates)
-       }
-   r
+    else  stop("mode of time series representation ", 
+                mode(newRepresentation ), "not recognized.")
+   "should not get here"
    }
 
 TSwriteXLS <- function(x, ..., FileName="R.xls", SheetNames=NULL,
@@ -79,9 +102,10 @@ TSwriteXLS <- function(x, ..., FileName="R.xls", SheetNames=NULL,
        }
     assign(frNames[i], seriesData, envir=env)
     }
-  if (require("WriteXLS") && testPerl(verbose=FALSE)) {
-     rr <- WriteXLS(frNames, ExcelFileName=FileName, SheetNames=SheetNames,
-               verbose=verbose, envir=env) 
+  if (requireNamespace("WriteXLS", quietly = TRUE) &&
+           WriteXLS::testPerl(verbose=FALSE)) {
+     rr <- WriteXLS::WriteXLS(frNames, ExcelFileName=FileName,
+               SheetNames=SheetNames, verbose=verbose, envir=env) 
      }
   else { # work around with save and transfer ...
      warning("WriteXLS not usable. Writing txt file.")
@@ -160,8 +184,8 @@ as.weekly <- function(x, FUN=sum, na.rm=FALSE, foldFrom=end(x), periodicity = 7)
    # 7 for 7 day weeks.  tested only with daily to weekly, 
    #  periodicity <- 1/frequency(x) unfortunately does not work for daily
    #drop <- length(x) %% periodicity
-   addst <- periodicity - (Tobs(tfwindow(x, end= foldFrom)) %% periodicity) 
-   adden <- (Tobs(tfwindow(x, start= foldFrom))-1) %% periodicity 
+   addst <- periodicity - (Tobs(tframe::tfwindow(x, end= foldFrom)) %% periodicity) 
+   adden <- (Tobs(tframe::tfwindow(x, start= foldFrom))-1) %% periodicity 
    x <- tfExpand.zoo(x, add.start=addst, add.end  =adden)
    r <- as.matrix(x)
    #if (drop > 0) r <- r[ -(1:drop),, drop=FALSE]
@@ -169,7 +193,7 @@ as.weekly <- function(x, FUN=sum, na.rm=FALSE, foldFrom=end(x), periodicity = 7)
    R <- NROW(r)/periodicity
    rr <- matrix(NA, R, C)
    for (i in 1:C) rr[,i ] <- apply(matrix(r[,i],periodicity, R),2, FUN=FUN)
-   r <- zoo(rr, foldFrom - (NROW(rr)-1):0 * periodicity)
+   r <- zoo::zoo(rr, foldFrom - (NROW(rr)-1):0 * periodicity)
    if(na.rm) trimNA(r) else r
    }
    
