@@ -1,10 +1,9 @@
 import("methods")
 import("tframe")
-importFrom("stats","start")
-importFrom("stats","end")
-importFrom("stats","frequency")
-importFrom("stats","time")
-importFrom("stats","aggregate")
+importFrom("stats", "start", "end", "frequency", "time", "aggregate")
+importFrom("stats", "as.ts", "lag", "cycle", "window")
+importFrom("utils", "write.csv")
+importFrom("graphics", "persp")
 
 importFrom("timeSeries","timeSeries")
 ##import("timeSeries")
@@ -54,20 +53,6 @@ S3method("tbind","xts")
 
 S3method("tfL","xts")
 S3method("tfExpand","xts")
-
-
-S3method("is.tframed","its")
-S3method("tfstart","its")
-S3method("tfstart","itstframe")
-S3method("tfend","its")
-S3method("tfend","itstframe")
-S3method("Tobs","its")
-S3method("Tobs","itstframe")
-S3method("tframe","its")
-S3method("tfSet","itstframe")
-S3method("tfwindow","its")
-S3method("tbind","its")
-S3method("time","its")
 
 
 S3method("is.tframed","tis")
